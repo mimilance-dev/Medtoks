@@ -1,0 +1,15 @@
+name: medtoks
+packages:
+  - apps/**
+  - packages/**
+
+scripts:
+  format:
+    run: dart format --output=none --set-exit-if-changed apps packages
+    description: Verify Dart formatting across apps and packages.
+  analyze:
+    run: melos exec -- flutter analyze
+    description: Analyze every workspace package and application.
+  test:
+    run: melos exec -- flutter test
+    description: Run all application and package smoke tests.

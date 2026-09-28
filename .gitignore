@@ -1,0 +1,34 @@
+# Dart and Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+build/
+coverage/
+*.lock
+!pubspec.lock
+
+# Platform build output
+android/.gradle/
+android/local.properties
+ios/Pods/
+ios/.symlinks/
+macos/Pods/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
+
+# Environment and credentials
+.env
+.env.*
+!.env.example
+supabase/.temp/
+supabase/.branches/
+
+# IDE and OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

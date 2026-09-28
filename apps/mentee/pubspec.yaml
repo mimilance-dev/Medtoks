@@ -1,0 +1,26 @@
+name: medtoks_mentee
+description: Independent Flutter application for medical mentees.
+publish_to: none
+resolution: workspace
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: '>=3.32.8'
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.6.1
+  go_router: ^14.8.1
+  medtoks_core:
+    path: ../../packages/core
+  medtoks_database:
+    path: ../../packages/database
+  medtoks_design_system:
+    path: ../../packages/design_system
+  medtoks_networking:
+    path: ../../packages/networking
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true

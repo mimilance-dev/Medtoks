@@ -1,6 +1,37 @@
 # Medtoks
 # 🩺 Medical Mentorship Platform
 
+## Workspace Foundation
+
+This repository contains two independent Flutter applications and shared Dart packages. The Mentee app targets iOS and Android; the Mentor app targets web and is structured for future Windows and macOS builds. The architecture proposal below is retained as product context. No business features, production database schema, or provider integrations are implemented by this foundation.
+
+### Prerequisites
+
+- Flutter 3.32.8 (includes Dart 3.8.x); use this version for local development and CI.
+- Git and a supported Flutter platform toolchain. Android builds require Android Studio/Android SDK; iOS builds require macOS and Xcode.
+- Supabase CLI only when working with the local backend.
+
+### Bootstrap
+
+```sh
+dart pub global activate melos 7.1.0
+melos bootstrap
+melos run analyze
+melos run test
+```
+
+Run individual apps from their directories with `flutter run` (Mentee on an available mobile target, Mentor with `flutter run -d chrome`). Run the Mentor web build with `cd apps/mentor && flutter build web`.
+
+### Development Workflow
+
+1. Install the pinned Flutter SDK and activate Melos.
+2. Run `melos bootstrap` after checkout or dependency changes.
+3. Run `melos run format`, `melos run analyze`, and `melos run test` before opening a pull request.
+4. Add shared contracts and infrastructure to `packages/`; keep app-specific composition and navigation in each app.
+5. Follow [local development](docs/development.md), [environment configuration](docs/environments.md), and [backend setup](docs/backend.md).
+
+See [architecture overview](docs/architecture.md) for package boundaries and dependency direction. Cloud development environments can run Dart analysis and web builds, but cannot build iOS/macOS applications without a macOS host. Windows desktop builds likewise require a Windows host.
+
 ## Architecture & Technical Documentation
 
 > **A scalable medical education and mentorship platform for FMGE, NEET PG, and INI-CET aspirants.**

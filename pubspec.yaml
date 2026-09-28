@@ -1,0 +1,21 @@
+name: medtoks_workspace
+publish_to: none
+description: MedToks Flutter monorepo workspace.
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+workspace:
+  - apps/mentee
+  - apps/mentor
+  - packages/core
+  - packages/design_system
+  - packages/auth
+  - packages/database
+  - packages/networking
+  - packages/subscriptions
+  - packages/payments
+  - packages/chat
+  - packages/content
+  - packages/notifications
+  - packages/analytics
+dev_dependencies:
+  melos: ^7.1.0

@@ -1,0 +1,101 @@
+name: Flutter CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  analyze-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.8
+          channel: stable
+          cache: true
+      - name: Activate Melos
+        run: |
+          dart pub global activate melos 7.1.0
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      - name: Bootstrap workspace
+        run: melos bootstrap
+      - name: Verify formatting
+        run: melos run format
+      - name: Analyze workspace
+        run: melos run analyze
+      - name: Test workspace
+        run: melos run test
+
+  mentor-web-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.8
+          channel: stable
+          cache: true
+      - name: Activate Melos
+        run: |
+          dart pub global activate melos 7.1.0
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      - name: Bootstrap workspace
+        run: melos bootstrap
+      - name: Build Mentor web
+        working-directory: apps/mentor
+        run: flutter build web --release
+
+  mentee-android-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.8
+          channel: stable
+          cache: true
+      - name: Activate Melos
+        run: |
+          dart pub global activate melos 7.1.0
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      - name: Bootstrap workspace
+        run: melos bootstrap
+      - name: Generate temporary Android host
+        run: |
+          flutter create --platforms=android --project-name medtoks_mentee "$RUNNER_TEMP/mentee-platform-check"
+          cp -R "$RUNNER_TEMP/mentee-platform-check/android" apps/mentee/
+      - name: Build Mentee Android
+        working-directory: apps/mentee
+        run: flutter build apk --debug
+
+  mentee-ios-build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.8
+          channel: stable
+          cache: true
+      - name: Activate Melos
+        run: |
+          dart pub global activate melos 7.1.0
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      - name: Bootstrap workspace
+        run: melos bootstrap
+      - name: Generate temporary iOS host
+        run: |
+          flutter create --platforms=ios --project-name medtoks_mentee "$RUNNER_TEMP/mentee-platform-check"
+          cp -R "$RUNNER_TEMP/mentee-platform-check/ios" apps/mentee/
+      - name: Build Mentee iOS without signing
+        working-directory: apps/mentee
+        run: flutter build ios --debug --no-codesign
